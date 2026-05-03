@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Donate Plants</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/message.css">
+    <link rel="stylesheet" href="../../CSS/pickPlants/pick.css">
+
+</head>
+
+<body>
+    <div id="toast-container"></div>
+    <div class="navbar">
+        <h2 class="logo">Plant Donation</h2>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="../Profile/profile.html">Profile</a>
+            <a id="logout" href="#">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+            <h3>Your Listed Plants</h3>
+            <div id="home-container">
+                <div class="home">
+                    <img class="cover" src="https://via.placeholder.com/400x200">
+
+                    <div class="home-content">
+                        <p><strong>Title:</strong> Plant </p>
+                        <p><strong>City:</strong> Haldwani</p>
+                        <p><strong>Quantity:</strong> 5</p>
+
+                        <div class="gallery">
+                            <img src="https://via.placeholder.com/60">
+                            <img src="https://via.placeholder.com/60">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="card">
+            <h3>Donate New Plant</h3>
+
+            <form id="plantForm" enctype="multipart/form-data">
+
+                <input type="text" name="name" placeholder="Plant Name" required>
+                <textarea name="description" placeholder="Description" required></textarea>
+
+                <select class="selection-option" name="category" required>
+                    <option value="">Select Category</option>
+                    <option>Indoor</option>
+                    <option>Outdoor</option>
+                    <option>Medicinal</option>
+                    <option>Flower</option>
+                </select>
+
+                <input type="number" name="quantity" placeholder="Quantity">
+
+                <input required type="text" name="street" placeholder="Street">
+
+                <div class="row">
+                    <input required type="text" name="city" placeholder="City">
+                    <input required type="text" name="state" placeholder="State">
+                </div>
+
+                <div class="row">
+                    <input required type="number" name="pincode" placeholder="Pincode">
+                </div>
+
+                <label>Cover Image</label>
+                <input type="file" name="coverImage" id="coverImage" accept="image/*">
+
+                <div id="coverPreview" class="preview"></div>
+
+                <label>Other Images</label>
+                <input type="file" name="images" id="images" multiple accept="image/*">
+
+                <div id="imagesPreview" class="preview"></div>
+
+                <button type="submit">Donate Plant 🌱</button>
+
+            </form>
+        </div>
+        <div class="card">
+            <h3 style=" margin:1rem 0;">Your Donated Plants</h3>
+            <div id="currentContainer" class="booked-room-container">
+
+                <div class=" home-card rented-room">
+                    <div class="wrap-up">
+
+                        <div class="cover-image">
+                            <img src="http://192.168.0.120:8080/uploads/1774016177158-882780-house2.png" alt="">
+                        </div>
+                        <div class="rent-info home-info">
+                            <h4 id="title">My Plants</h4>
+                            <h4>Total Quantity: 5</h4>
+                            <span>Total Planted: 5</span>
+                        </div>
+                    </div>
+                    <div class=" flex-align-center see-more" style="margin: 0 1rem;">
+                        <select name="status" id="status">
+                            <option value="available">Available</option>
+                            <option value="donated">Picked</option>
+                            <option value="planted">Cancel</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="../../JavaScript/message.js"></script>
+<script src="../../JavaScript/donatePlants/donatePlants.js"></script>
+
+</html>
