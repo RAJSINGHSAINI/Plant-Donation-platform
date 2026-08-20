@@ -6,5 +6,5 @@ const connectDB = async ()=>{
 
     await mongoose.connect(`${process.env.MONGODB_URI}/PlantDonationPlatform`)
 }
-
-export default connectDB
+ 
+export default connectDB  

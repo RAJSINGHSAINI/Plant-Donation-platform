@@ -1,11 +1,11 @@
-const currentContainer = document.querySelector('#activeContainer'); //  Fixed: was #activityContainer
+const currentContainer = document.querySelector('#activeContainer'); 
 const historyContainer = document.querySelector('#historyContainer');
 
 let donationsData = [];
 
 // GET DONATIONS (VOLUNTEER)
 async function getAllDonations() {
-    const res = await fetch('http://192.168.0.120:8080/api/donation/my-picked', {
+    const res = await fetch('http://192.168.0.113:8080/api/donation/my-picked', {
         method: 'GET',
         credentials: 'include'
     });
@@ -17,6 +17,8 @@ async function getAllDonations() {
     }
 
     donationsData = data.donations;
+    console.log(donationsData);
+    
     renderDonations(donationsData);
 }
 
@@ -31,13 +33,13 @@ function renderDonations(donations) {
 
         //  Show "Planted At" date only if status is planted and date exists
         const plantedAtHTML = (d.status === 'planted' && d.plantedAt)
-            ? `<p><strong>Planted At:</strong> ${new Date(d.plantedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>`
+            ? `<p><strong>Planted At:</strong> ${new Date(d.plantedAt).toDateString()}</p>`
             : '';
 
         const card = `
 <div class="booking-card">
 
-    <img src="http://192.168.0.120:8080/uploads/${d.plant.coverImage}" class="booking-img">
+    <img src="http://192.168.0.113:8080/uploads/${d.plant.coverImage}" class="booking-img">
 
     <div class="booking-content">
 
@@ -51,6 +53,7 @@ function renderDonations(donations) {
         <div class="booking-info">
             <p><strong>Category:</strong> ${d.plant.category}</p>
             <p><strong>Quantity:</strong> ${d.plant.quantity}</p>
+            ${d.pickedAt ? `<p><strong>Picked At:</strong> ${new Date(d.pickedAt).toDateString()}</p>`: ""}
             ${plantedAtHTML}
         </div>
 
@@ -80,7 +83,6 @@ function renderDonations(donations) {
     }
 }
 
-//  Fixed: Removed duplicate forEach loop, merged ALL click logic into one listener per container
 [currentContainer, historyContainer].forEach(parent => {
     parent.addEventListener('click', async (e) => {
         const id = e.target.dataset.id;
@@ -117,6 +119,9 @@ function openDetailsModal(d) {
 
     document.getElementById("m-volunteer").innerText =
         d.volunteer ? `${d.volunteer.name} (${d.volunteer.email})` : "Not Assigned";
+    
+    document.getElementById("m-address").innerText =
+        d.plant ? `${d.plant.address.street}, ${d.plant.address.city}, ${d.plant.address.state} - ${d.plant.address.pincode}` : "N/A";
 }
 
 function closeDetailsModal() { document.getElementById("detailsModal").style.display = "none"; }
@@ -158,7 +163,7 @@ function getActionButtons(d) {
 
 // CONFIRM PICKUP
 async function confirmPickup(id) {
-    const res = await fetch('http://192.168.0.120:8080/api/donation/confirm-pickup', {
+    const res = await fetch('http://192.168.0.113:8080/api/donation/confirm-pickup', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         credentials: 'include',
@@ -173,7 +178,7 @@ async function confirmPickup(id) {
 
 // MARK PLANTED
 async function markPlanted(id) {
-    const res = await fetch('http://192.168.0.120:8080/api/donation/mark-planted', {
+    const res = await fetch('http://192.168.0.113:8080/api/donation/mark-planted', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         credentials: 'include',
@@ -188,7 +193,7 @@ async function markPlanted(id) {
 
 // CANCEL
 async function cancelDonation(id) {
-    const res = await fetch('http://192.168.0.120:8080/api/donation/cancel', {
+    const res = await fetch('http://192.168.0.113:8080/api/donation/cancel', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         credentials: 'include',
@@ -200,6 +205,4 @@ async function cancelDonation(id) {
     getAllDonations();
 }
 
-
-// INIT
 getAllDonations();

@@ -8,8 +8,9 @@ import { authRouter } from "./routes/authRouter.js"
 import userRouter from "./routes/userRouter.js"
 import {plantRouter} from "./routes/plantRouter.js"
 import { donationRouter } from "./routes/donateRouter.js"
+
 // app
-const app = express()
+const app = express() 
 
 // port
 const port = process.env.PORT || 8080
@@ -19,7 +20,7 @@ connectDB()
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: "http://192.168.0.120:5500",
+    origin: "http://192.168.0.113:5500",
     credentials: true
 }));
 

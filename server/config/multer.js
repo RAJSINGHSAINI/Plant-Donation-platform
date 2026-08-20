@@ -22,7 +22,7 @@ const fileFilter = (req, file, cb) => {
     } else {
         cb(new Error("Only images allowed"), false);
     }
-};
+}; 
 
 const upload = multer({
     storage,

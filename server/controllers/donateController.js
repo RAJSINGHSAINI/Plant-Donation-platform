@@ -55,9 +55,9 @@ export const pickPlant = async (req, res) => {
     }
 };
 
-
+ 
 //  DONOR CONFIRMS PICKUP
-export const confirmPickup = async (req, res) => {
+export const confirmPickup = async (req, res) => { 
     try {
         const { donationID } = req.body;
         const { userID } = req;
@@ -161,7 +161,7 @@ export const getMyDonations = async (req, res) => {
         if (!user || !user.isAccountVerified) {
             return res.json({ success: false, message: "User not verified" });
         }
-
+        
         const donations = await Donation.find({ donor: userID })
             .populate("plant")
               .populate("volunteer", "name email phone");

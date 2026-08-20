@@ -1,8 +1,9 @@
 let isLoggedIn = false;
 let user = null;
+let isSubmitting = false;
 async function loadProfile() {
 
-    const res = await fetch("http://192.168.0.120:8080/api/user/data", {
+    const res = await fetch("http://192.168.0.113:8080/api/user/data", {
         method: "GET",
         credentials: "include"
     })
@@ -47,7 +48,7 @@ async function loadProfile() {
 document.getElementById('logoutBtn').addEventListener('click', logoutUser)
 async function logoutUser() {
 
-    const res = await fetch("http://192.168.0.120:8080/api/auth/logout", {
+    const res = await fetch("http://192.168.0.113:8080/api/auth/logout", {
 
         method: "POST",
 
@@ -74,7 +75,11 @@ async function logoutUser() {
 
 async function sendOtp() {
 
-    const otpResponse = await fetch('http://192.168.0.120:8080/api/auth/send-verify-otp', {
+    if(isSubmitting) return;
+    isSubmitting = true;
+
+try {
+    const otpResponse = await fetch('http://192.168.0.113:8080/api/auth/send-verify-otp', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -94,6 +99,12 @@ async function sendOtp() {
         console.log(otpData.message);
 
     }
+}catch(error){
+    console.error("Error:", error);
+    showMessage("An error occurred. Please try again later.", "error");
+} finally {
+    isSubmitting = false;
+}
 }
 
 loadProfile()
@@ -120,7 +131,7 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
         showMessage("No changes made", "error")
         return;
     }
-    const response = await fetch("http://192.168.0.120:8080/api/user/update-data", {
+    const response = await fetch("http://192.168.0.113:8080/api/user/update-data", {
 
         method: "PUT",
 

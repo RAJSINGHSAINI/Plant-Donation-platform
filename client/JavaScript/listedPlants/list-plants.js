@@ -2,7 +2,7 @@ let allPlants = [];
 
 async function getPlants() {
 
-    const response = await fetch("http://192.168.0.120:8080/api/plant/get-all-plants", {
+    const response = await fetch("http://192.168.0.113:8080/api/plant/get-all-plants", {
         method: "GET",
         credentials: "include"
     });
@@ -56,7 +56,7 @@ function renderPlants(plants) {
 
         card.innerHTML = `
         <div class="home-image">
-            <img src="http://192.168.0.120:8080/uploads/${plant.coverImage}" alt="${plant.name}">
+            <img src="http://192.168.0.113:8080/uploads/${plant.coverImage}" alt="${plant.name}">
         </div>
 
         <div class="home-content">
@@ -92,7 +92,7 @@ getPlants();
 async function pickPlant(plantID) {
     try {
 
-        const res = await fetch("http://192.168.0.120:8080/api/donation/pick", {
+        const res = await fetch("http://192.168.0.113:8080/api/donation/pick", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

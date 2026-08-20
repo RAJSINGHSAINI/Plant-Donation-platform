@@ -27,7 +27,7 @@ export const addPlant = async (req, res) => {
         if (!user || !user.isAccountVerified) {
             return res.json({ success: false, message: "User not verified" });
         }
-
+ 
         const coverImage = req.files?.coverImage?.[0]?.filename || null;
 
         const images = req.files?.images

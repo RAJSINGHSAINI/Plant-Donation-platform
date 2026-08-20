@@ -1,7 +1,11 @@
+let isSubmiting = false;
 const form = document.getElementById("registerForm");
 form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
+
+    if (isSubmiting) return;
+    isSubmiting = true;
 
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
@@ -10,10 +14,26 @@ form.addEventListener("submit", async (e) => {
     const state = document.getElementById("state").value;
     const pincode = document.getElementById("pincode").value;
     const password = document.getElementById("password").value;
-
+    if (password.length < 8) {
+        isSubmiting = false;
+        showMessage("Password must be at least 8 characters long", "error");
+        return;
+    } else if (password.length > 20) {
+        isSubmiting = false;
+        showMessage("Password cannot be more than 20 characters long", "error");
+        return;
+    } else if (password.includes(" ")) {
+        isSubmiting = false;
+        showMessage("Password cannot contain spaces", "error");
+        return;
+    } else if (!/[A-Za-z]/.test(password)) {
+        isSubmiting = false;
+        showMessage("Password must contain at least one letter", "error");
+        return;
+    }
     try {
 
-        const response = await fetch("http://192.168.0.120:8080/api/auth/register", {
+        const response = await fetch("http://192.168.0.113:8080/api/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -35,12 +55,13 @@ form.addEventListener("submit", async (e) => {
         const data = await response.json();
         console.log(data)
         if (!data.success) {
-          return showMessage(data.message, "error");
+            isSubmiting = false;
+            return showMessage(data.message, "error");
         }
 
         // Send OTP after successful registration
 
-        const otpResponse = await fetch("http://192.168.0.120:8080/api/auth/send-verify-otp", {
+        const otpResponse = await fetch("http://192.168.0.113:8080/api/auth/send-verify-otp", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -55,15 +76,15 @@ form.addEventListener("submit", async (e) => {
 
         if (otpData.success) {
 
-            showMessage("OTP sent to your email","success");
+            showMessage("OTP sent to your email", "success");
             setTimeout(() => {
-                
+
                 window.location.href = "verify-email.html";
             }, 3000);
 
         } else {
 
-            showMessage(otpData.message,"error");
+            showMessage(otpData.message, "error");
 
         }
 
@@ -71,8 +92,11 @@ form.addEventListener("submit", async (e) => {
 
         console.error("Error:", error);
 
-        showMessage("Something went wrong. Please try again.","error");
+        showMessage("Something went wrong. Please try again.", "error");
 
+    } finally {
+
+        isSubmiting = false;
     }
 
 });

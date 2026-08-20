@@ -10,8 +10,20 @@ document.getElementById("resetForm").addEventListener("submit", async (e) => {
         return showMessage("Invalid email format");
     }
 
-
-    const res = await fetch("http://192.168.0.120:8080/api/auth/reset-password", {
+    if (newPassword.length < 8) {
+        showMessage("Password must be at least 8 characters long", "error");
+        return;
+    } else if (newPassword.length > 20) {
+        showMessage("Password cannot be more than 20 characters long", "error");
+        return;
+    } else if (newPassword.includes(" ")) {
+        showMessage("Password cannot contain spaces", "error");
+        return;
+    } else if (!/[A-Za-z]/.test(newPassword)) {
+        showMessage("Password must contain at least one letter", "error");
+        return;
+    }
+    const res = await fetch("http://192.168.0.113:8080/api/auth/reset-password", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

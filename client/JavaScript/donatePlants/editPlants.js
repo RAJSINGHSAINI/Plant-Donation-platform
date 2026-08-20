@@ -39,7 +39,7 @@ fillPlantDetails(plantID);
 
 async function fillPlantDetails(plantID) {
     try {
-        const response = await fetch(`http://192.168.0.120:8080/api/plant/get-plant/${plantID}`, {
+        const response = await fetch(`http://192.168.0.113:8080/api/plant/get-plant/${plantID}`, {
             method: "GET",
             credentials: "include"
         });
@@ -71,7 +71,7 @@ async function fillPlantDetails(plantID) {
 
         if (plant.coverImage) {
             const img = document.createElement("img");
-            img.src = `http://192.168.0.120:8080/uploads/${plant.coverImage}`;
+            img.src = `http://192.168.0.113:8080/uploads/${plant.coverImage}`;
             coverPreview.appendChild(img);
         }
 
@@ -82,7 +82,7 @@ async function fillPlantDetails(plantID) {
         if (plant.images?.length) {
             plant.images.forEach(imgName => {
                 const img = document.createElement("img");
-                img.src = `http://192.168.0.120:8080/uploads/${imgName}`;
+                img.src = `http://192.168.0.113:8080/uploads/${imgName}`;
                 imagesPreview.appendChild(img);
             });
         }
@@ -110,7 +110,7 @@ form.addEventListener('submit', async (e) => {
 
     try {
        
-        const res = await fetch("http://192.168.0.120:8080/api/plant/update-plant", {
+        const res = await fetch("http://192.168.0.113:8080/api/plant/update-plant", {
             method: "PUT",
             body: formData,
             credentials: "include"

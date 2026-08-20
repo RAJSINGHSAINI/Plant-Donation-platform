@@ -4,7 +4,7 @@ const plantID = params.get('id'); // ← gets the id from URL
 
 // then fetch the plant
 async function getPlantDetail() {
-    const res = await fetch(`http://192.168.0.120:8080/api/plant/get-plant/${plantID}`, {
+    const res = await fetch(`http://192.168.0.113:8080/api/plant/get-plant/${plantID}`, {
         credentials: 'include'
     });
     const data = await res.json();
@@ -24,7 +24,7 @@ function renderPlant(plantData) {
     container.innerHTML = `
                 <div class="gallery-container">
                     <span class="badge">${plantData.status}</span>
-                    <img src="http://192.168.0.120:8080/uploads/${plantData.coverImage}" alt="${plantData.name}" class="main-img" id="mainDisplay" alt="Plant">
+                    <img src="http://192.168.0.113:8080/uploads/${plantData.coverImage}" alt="${plantData.name}" class="main-img" id="mainDisplay" alt="Plant">
                 </div>
 
                 <div class="content">
@@ -59,10 +59,10 @@ function renderPlant(plantData) {
 
                     <div class="thumbnail-bar">
                         ${plantData.images.map(img => `
-                            <img src="http://192.168.0.120:8080/uploads/${img}" class="thumb">
+                            <img src="http://192.168.0.113:8080/uploads/${img}" class="thumb">
                         `).join('')}
                     </div>
-                </div>
+                </div> 
             `;
 }
 

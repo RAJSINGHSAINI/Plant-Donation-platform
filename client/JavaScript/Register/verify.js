@@ -6,7 +6,7 @@ form.addEventListener("submit", async (e) => {
 
     const OTP = document.getElementById("otp").value;
 
-    const response = await fetch("http://192.168.0.120:8080/api/auth/verify-otp", {
+    const response = await fetch("http://192.168.0.113:8080/api/auth/verify-otp", {
 
         method: "POST",
         credentials: "include",

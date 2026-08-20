@@ -48,7 +48,7 @@ form.addEventListener('submit', async (e) => {
         return showMessage("Pincode must be 6 digits", "error");
     }
 
-    const res = await fetch("http://192.168.0.120:8080/api/plant/add-plant", {
+    const res = await fetch("http://192.168.0.113:8080/api/plant/add-plant", {
         method: "POST",
         body: formData,
         credentials: "include"
@@ -68,7 +68,7 @@ form.addEventListener('submit', async (e) => {
 
 // LOAD MY PLANTS (DONOR)
 async function loadMyPlants() {
-    const res = await fetch("http://192.168.0.120:8080/api/plant/my-plants", {
+    const res = await fetch("http://192.168.0.113:8080/api/plant/my-plants", {
         credentials: "include"
     });
 
@@ -81,14 +81,15 @@ async function loadMyPlants() {
         container.innerHTML = "<p>No plants added yet</p>";
         return;
     }
-
+    console.log(data.plants);
+    
     data.plants.forEach(plant => {
         container.innerHTML += `
 <div class="home-card">
 
     <!-- 🌱 Image -->
     <div class="home-image">
-        <img src="http://192.168.0.120:8080/uploads/${plant.coverImage}">
+        <img src="http://192.168.0.113:8080/uploads/${plant.coverImage}">
         <span class="price">${plant.category}</span>
     </div>
 
@@ -132,7 +133,7 @@ async function deletePlant(plantID) {
     if (!confirmDelete) return;
 
     try {
-        const res = await fetch(`http://192.168.0.120:8080/api/plant/delete-plant/${plantID}`, {
+        const res = await fetch(`http://192.168.0.113:8080/api/plant/delete-plant/${plantID}`, {
             method: "DELETE",
             credentials: "include"
         });
@@ -155,7 +156,7 @@ async function deletePlant(plantID) {
 
 async function logoutUser() {
 
-    const res = await fetch("http://192.168.0.120:8080/api/auth/logout", {
+    const res = await fetch("http://192.168.0.113:8080/api/auth/logout", {
 
         method: "POST",
 
@@ -212,7 +213,7 @@ document.getElementById("images").addEventListener("change", (e) => {
 });
 
 async function getAllDonations() {
-    const res = await fetch('http://192.168.0.120:8080/api/donation/my-donations', {
+    const res = await fetch('http://192.168.0.113:8080/api/donation/my-donations', {
         method: 'GET',
         credentials: 'include'
     });
@@ -233,7 +234,6 @@ const currentContainer = document.getElementById("currentContainer");
 
 async function renderDonations(donations) {
     console.log(donations);
-
     currentContainer.innerHTML = '';
     donations.forEach(d => {
         currentContainer.innerHTML += `
@@ -241,7 +241,7 @@ async function renderDonations(donations) {
                     <div class="wrap-up">
 
                         <div class="cover-image">
-                            <img src="http://192.168.0.120:8080/uploads/${d.plant.coverImage}" alt="">
+                            <img src="http://192.168.0.113:8080/uploads/${d.plant.coverImage}" alt="">
                         </div>
                         <div class="rent-info home-info">
                             <h4 id="title">${d.plant.name}</h4>
@@ -253,6 +253,10 @@ async function renderDonations(donations) {
                             <div class="rent-info home-info">
                                 <p><strong>Volunteer:</strong> ${d.volunteer ? d.volunteer.name : "Not assigned"}</p>
                                 <p><strong>Contact:</strong> ${d.volunteer ? d.volunteer.email : "N/A"}</p>
+                                <p><strong>Address:</strong> ${d.plant ? `${d.plant.address.street}, ${d.plant.address.city}, ${d.plant.address.state} - ${d.plant.address.pincode}` : "N/A"}</p>
+                                <p><strong>Assigned Date:</strong> ${d.volunteer ? new Date(d.createdAt).toDateString() : "N/A"}</p>
+                                <p><strong>Picked Date:</strong> ${d.volunteer ? new Date(d.pickedAt).toDateString() : "N/A"}</p>
+                               ${d.plantedAt ? `<p><strong>Planted Date:</strong> ${new Date(d.plantedAt).toDateString()}</p>` : ""}
                             </div>
                     </div>
                    <div class="flex-align-center see-more" style="margin: 0 1rem;">
@@ -293,7 +297,7 @@ async function renderDonations(donations) {
 }
 async function confirmPickup(id) {
 
-    const res = await fetch('http://192.168.0.120:8080/api/donation/confirm-pickup', {
+    const res = await fetch('http://192.168.0.113:8080/api/donation/confirm-pickup', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         credentials: 'include',
@@ -307,7 +311,7 @@ async function confirmPickup(id) {
 }
 async function cancelPickup(id) {
 
-    const res = await fetch('http://192.168.0.120:8080/api/donation/cancel', {
+    const res = await fetch('http://192.168.0.113:8080/api/donation/cancel', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         credentials: 'include',
